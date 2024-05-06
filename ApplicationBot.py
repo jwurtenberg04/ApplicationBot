@@ -27,9 +27,36 @@ def getMouseColor():
         print('\n')
 
 def apply():
+    # Locate the application button and click it
+    time.sleep(1)
     applicationButton = gui.locateCenterOnScreen('easy_apply.png')
     gui.moveTo(applicationButton)
     gui.click()
+    time.sleep(1)
+
+    # Click through the prompts
+    while gui.locateCenterOnScreen('next_button.png'):
+        gui.click(gui.locateCenterOnScreen('next_button.png'))
+        time.sleep(1)
+
+        # Check for any missing info (exit and save application if missing info)
+        if gui.locateCenterOnScreen('stop.png'):
+            gui.click(gui.locateCenterOnScreen('exit_popup.png'))
+            time.sleep(1)
+            gui.click(gui.locateCenterOnScreen('save.png'))
+            return
+    time.sleep(1)
+    gui.click(gui.locateCenterOnScreen('review_button.png'))
+    time.sleep(1)
+    if gui.locateCenterOnScreen('stop.png'):
+            gui.click(gui.locateCenterOnScreen('exit_popup.png'))
+            time.sleep(1)
+            gui.click(gui.locateCenterOnScreen('save.png'))
+            return
+    gui.click(gui.locateCenterOnScreen('submit_application.png'))
+    time.sleep(1)
+    gui.click(gui.locateCenterOnScreen('exit_popup.png'))
+
 # Set failsafe equal to false so that the mouse can reach the corner of the screen
 gui.FAILSAFE = False
 # Global variable for the link RGB color values 
@@ -52,15 +79,22 @@ def mouseIsOverJob(mouseX, mouseY):
         return False
     
 def searchList():
-    for i in range(260, screenHeight, 10):
-        if keyboard.is_pressed('q'):
-            return
-        gui.moveTo(480, i)
-        if mouseIsOverJob(480, i):
-            gui.click()
-            apply()
+    keepgoing = True
+    while keepgoing:
+
+        # Moves the cursor down 5 pixels at a time
+        for i in range(260, screenHeight - 50, 5):
+            if keyboard.is_pressed('q'):
+                return
+            gui.moveTo(480, i)
+            if mouseIsOverJob(480, i):
+                gui.click()
+                apply()
+        gui.scroll(-1000)
+
 
 # Opening FireFox
+print("Press 'q' to stop program!")
 gui.press("win")
 time.sleep(1)
 gui.write("FireFox")
@@ -93,6 +127,6 @@ gui.click(778, 263)
 time.sleep(2)
 gui.click(984, 494)
 time.sleep(5)
-
+apply()
 searchList()
 

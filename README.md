@@ -1,2 +1,2 @@
 # ApplicationBot
-A python script used to automate the application process on LinkedIn
+Using the PyAutoGUI library, I automated the application process on linked in. The program navigates to the job search page, and then inputs user-defined job titles and locations into the search bar. then, it moves the cursor down the screen until it detects a clickable job listing. After this, it searches for the apply button, and navigates the prompts. If there are any prompts that do not autofill, it exits the application and saves it for you to view at a later time. Therefore, the program does not submit incorrect information.
